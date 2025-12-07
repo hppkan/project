@@ -217,6 +217,21 @@ def create_detailed_description(objects, details, img_width, img_height):
             return "중간 크기의"
         else:
             return "작은"
+
+    # 객체 거리감 분석    
+    def get_distance_level(w, h, img_w, img_h):
+        area = w * h
+        img_area = img_w * img_h
+        ratio = area / img_area
+
+        if ratio > 0.25:
+            return "아주 가까운"
+        elif ratio > 0.1:
+            return "가까운"
+        elif ratio > 0.04:
+            return "보통 거리의"
+        else:
+            return "먼 거리의"
     
     # 기본 설명
     total = len(objects)
@@ -246,7 +261,8 @@ def create_detailed_description(objects, details, img_width, img_height):
             korean_name = korean_names.get(detail['label'], detail['label'])
             position = get_position(detail['x'], detail['y'], detail['width'], detail['height'])
             size = get_size(detail['width'], detail['height'])
-            position_desc.append(f"{position}에 {size} {korean_name}")
+            distance = get_distance_level(detail['width'], detail['height'], img_width, img_height)
+            position_desc.append(f"{position}에 {distance} {size} {korean_name}")
         description += ", ".join(position_desc) + "이 있습니다."
     
     return description
