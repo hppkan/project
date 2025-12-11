@@ -5,6 +5,8 @@ from tkinter.filedialog import askopenfilename
 import os
 from collections import Counter
 import subprocess
+from plus import group_objects
+
 
 # --- 파일 선택창 열기 ---
 Tk().withdraw()
