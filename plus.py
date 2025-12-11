@@ -61,6 +61,33 @@ def translate_label(eng_label):
     """영문 레이블을 받아 한글로 변환합니다. 없으면 원래 영문 반환."""
     return ENG_TO_KOR_MAP.get(eng_label, eng_label)
 
+from collections import Counter
+
+def group_objects(detected_labels):
+    """
+    탐지된 객체 리스트를 받아 같은 객체끼리 묶어 개수를 세고
+    사용자에게 설명용 텍스트까지 생성하는 기능.
+
+    예) ['person', 'car', 'car', 'dog']
+    → {'person': 1, 'car': 2, 'dog': 1}
+    → '사람 1개, 자동차 2개, 개 1개'
+    """
+    if not detected_labels:
+        return {}, "탐지된 객체가 없습니다."
+
+    counts = Counter(detected_labels)
+
+    # 한글 변환 + 개수 설명
+    description_parts = []
+    for eng, count in counts.items():
+        kor = ENG_TO_KOR_MAP.get(eng, eng)
+        description_parts.append(f"{kor} {count}개")
+
+    description_text = ", ".join(description_parts)
+
+    return counts, description_text
+
+
 # 상황 설명
 
 def infer_scene_context(detected_labels):
@@ -151,4 +178,5 @@ def speak(text):
 
 # 테스트 실행
 if __name__ == '__main__':
+
     speak("안녕하세요. 음성 출력 테스트입니다.")
