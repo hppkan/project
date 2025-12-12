@@ -21,7 +21,7 @@ image_path = askopenfilename(
 )
 
 if not image_path:
-    print("이미지를 선택하지 않았습니다.")
+    print("이미지를 선택하지 않아 프로그램을 종료합니다.")
     exit()
 
 print("선택된 이미지:", image_path)
@@ -137,6 +137,37 @@ print('number of detected objects =', len(boxes))
 # non maximum suppression
 indices = cv2.dnn.NMSBoxes(boxes, confidence_scores, 0.5, 0.4)
 print('number of final objects =', len(indices))
+
+# --- 객체가 하나도 탐지되지 않았을 때도 음성 출력 ---
+if len(indices) == 0:
+    msg = "이미지에서 객체를 인식하지 못했습니다."
+    
+    print("\n=== 음성 설명 ===")
+    print(msg)
+
+    print("음성을 재생합니다...")
+    try:
+        subprocess.run(['say', '-v', 'Yuna', msg], check=True)
+    except subprocess.CalledProcessError:
+        print("음성 재생에 실패했습니다. 기본 음성을 사용합니다.")
+        subprocess.run(['say', msg])
+    except FileNotFoundError:
+        print("say 명령어를 찾을 수 없습니다. macOS가 아닌 것 같습니다.")
+        # pyttsx3 fallback
+        try:
+            import pyttsx3
+            engine = pyttsx3.init()
+            engine.say(msg)
+            engine.runAndWait()
+        except:
+            print("음성 재생을 건너뜁니다.")
+
+    # 원본 이미지 보여주고 종료
+    cv2.imshow('Objects', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    exit()
+
 
 # draw boxes and collect detected objects with positions
 colors = np.random.uniform(0, 255, size=(len(classes), 3))
