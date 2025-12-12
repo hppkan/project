@@ -135,6 +135,16 @@ class chair detected at 1200, 450, 300, 350
 
 ---
 
+## Demo Video
+
+아래 영상은 프로그램 실행 전체 과정을 보여주는 데모입니다.  
+이미지를 선택하고 객체 탐지 결과가 출력되며, 음성 설명이 함께 재생됩니다.
+
+[![Demo Video](https://img.youtube.com/vi/OloWei_sXvk/0.jpg)](https://youtu.be/OloWei_sXvk)
+
+영상을 클릭하면 YouTube로 재생됩니다.
+---
+
 
 ### 참고한 소스 코드
 
