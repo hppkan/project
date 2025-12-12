@@ -26,8 +26,18 @@ if not image_path:
 
 print("선택된 이미지:", image_path)
 
+# --- 한글 경로 대응 imread 함수 ---
+def imread_unicode(path):
+    try:
+        data = np.fromfile(path, np.uint8)  # read file to binary
+        img = cv2.imdecode(data, cv2.IMREAD_COLOR)  # decode image
+        return img
+    except Exception as e:
+        print(f"이미지 로드 중 오류 발생: {e}")
+        return None
+    
 # read image
-img = cv2.imread(image_path)
+img = imread_unicode(image_path)
 if img is None:
     print("이미지를 불러오지 못했습니다. 경로를 확인하세요.")
     exit()
@@ -276,7 +286,7 @@ def analyze_situation(object_count, korean_names):
     # 교통 관련
     if {'car', 'truck', 'bus'} & objects_set:
         return "도로나 주차장 같은 교통 환경으로 보입니다."
-    
+     
     # 식사 관련
     if {'fork', 'knife', 'spoon', 'bowl', 'cup'} & objects_set or \
        {'pizza', 'sandwich', 'cake', 'donut'} & objects_set:

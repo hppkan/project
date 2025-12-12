@@ -139,7 +139,6 @@ def infer_scene_context(detected_labels):
 # OS별 음성 출력 분기
 import platform
 import os
-from config import MACOS_VOICE_NAME
 
 # 윈도우/리눅스용 pyttsx3 (설치되어 있을 때만 로드)
 try:
