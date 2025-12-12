@@ -143,6 +143,7 @@ class chair detected at 1200, 450, 300, 350
 [![Demo Video](https://img.youtube.com/vi/OloWei_sXvk/0.jpg)](https://youtu.be/OloWei_sXvk)
 
 영상을 클릭하면 YouTube로 재생됩니다.
+
 ---
 
 
